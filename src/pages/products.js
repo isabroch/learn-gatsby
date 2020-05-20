@@ -86,7 +86,12 @@ export const productQuery = graphql`
               }
             }
             image {
-              fluid(maxWidth: 200, maxHeight: 200, resizingBehavior: SCALE) {
+              fluid(
+                maxWidth: 200
+                maxHeight: 200
+                resizingBehavior: SCALE
+                toFormat: WEBP
+              ) {
                 ...GatsbyContentfulFluid_tracedSVG
               }
             }
