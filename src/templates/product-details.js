@@ -3,18 +3,10 @@ import { graphql } from "gatsby";
 import Helmet from "react-helmet";
 import get from "lodash/get";
 import Img from "gatsby-image";
-import Flickity from "react-flickity-component";
-import "flickity/dist/flickity.min.css";
-import "./product-album.css";
 import Layout from "../components/layout";
 import styles from "./product-details.module.scss";
 import Price from "../components/Price";
-
-const ProductAlbum = ({ children }) => (
-  <Flickity className={styles["album"]} options={{ wrapAround: true }}>
-    {children}
-  </Flickity>
-);
+import { ProductAlbum } from "../components/product-album";
 
 const ProductDetails = (product) => {
   return (
@@ -30,11 +22,7 @@ const ProductDetails = (product) => {
       </div>
       <ProductAlbum>
         {product.image.map(({ fluid: fluidImage }) => {
-          return (
-            <div key={fluidImage.src} className={styles["album__main"]}>
-              <Img fluid={fluidImage} />
-            </div>
-          );
+          return <Img key={fluidImage.src} fluid={fluidImage} />;
         })}
       </ProductAlbum>
     </main>
@@ -78,7 +66,7 @@ export const pageQuery = graphql`
         }
       }
       image {
-        fluid(maxWidth: 200, maxHeight: 200, resizingBehavior: SCALE) {
+        fluid(maxWidth: 400, maxHeight: 400, resizingBehavior: SCALE) {
           ...GatsbyContentfulFluid_tracedSVG
         }
       }

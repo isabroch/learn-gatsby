@@ -7,6 +7,7 @@ exports.createPages = ({ graphql, actions }) => {
   return new Promise((resolve, reject) => {
     const blogPost = path.resolve("./src/templates/blog-post.js");
     const productPage = path.resolve("./src/templates/product-details.js");
+    const categoryPage = path.resolve("./src/templates/category-products.js");
     resolve(
       graphql(
         `
@@ -21,6 +22,14 @@ exports.createPages = ({ graphql, actions }) => {
             }
 
             allContentfulProduct {
+              edges {
+                node {
+                  slug
+                }
+              }
+            }
+
+            allContentfulCategory {
               edges {
                 node {
                   slug
@@ -49,10 +58,21 @@ exports.createPages = ({ graphql, actions }) => {
         const products = result.data.allContentfulProduct.edges;
         products.forEach((product) => {
           createPage({
-            path: `/products/${product.node.slug}`,
+            path: `/${product.node.slug}`,
             component: productPage,
             context: {
               slug: product.node.slug,
+            },
+          });
+        });
+
+        const categories = result.data.allContentfulCategory.edges;
+        categories.forEach((category) => {
+          createPage({
+            path: `/products/${category.node.slug}`,
+            component: categoryPage,
+            context: {
+              slug: category.node.slug,
             },
           });
         });
